@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>X-FACTOR DEV | Ultimate Toolkit</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Courier New', monospace;
+        }
+        
+        :root {
+            --primary: #6a11cb;
+            --secondary: #2575fc;
+            --dark: #0a0a12;
+            --light: #ffffff;
+            --accent: #ff2e77;
+            --success: #00ff88;
+            --warning: #ffaa00;
+            --whatsapp: #25D366;
+            --neon-blue: #00f0ff;
+            --neon-green: #39ff14;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--dark), #000000);
+            color: var(--light);
+            line-height: 1.6;
+            overflow-x: hidden;
+            font-size: 24px;
+        }
+        
+        .container {
+            width: 95%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        #passwordOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(5,5,10,0.98);
+            z-index: 10000;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            flex-direction: column;
+            color: white;
+            overflow-y: auto;
+            padding: 20px 0;
+        }
+        
+        .password-box {
+            background: rgba(15,15,25,0.95);
+            padding: 50px;
+            border-radius: 15px;
+            text-align: center;
+            max-width: 600px;
+            width: 90%;
+            border: 2px solid var(--neon-blue);
+            box-shadow: 0 0 40px rgba(0, 240, 255, 0.4);
+            margin: 0 auto;
+        }
+        
+        .follow-step {
+            background: rgba(255,255,255,0.08);
+            padding: 30px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .step-completed {
+            border-left-color: var(--success);
+            background: rgba(0, 255, 136, 0.1);
+        }
+        
+        header {
+            background: rgba(10,10,20,0.95);
+            backdrop-filter: blur(15px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            padding: 20px 0;
+            border-bottom: 2px solid rgba(0, 240, 255, 0.3);
+        }
+        
+        .logo {
+            font-size: 3.5rem;
+            font-weight: 700;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: flex;
+            align-items: center;
+            text-shadow: 0 0 15px rgba(106, 17, 203, 0.6);
+        }
+        
+        .hero {
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            padding-top: 100px;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 5rem;
+            margin-bottom: 30px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 25px rgba(106, 17, 203, 0.7);
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 22px 45px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            margin: 10px;
+            font-size: 1.8rem;
+            border: 2px solid rgba(255,255,255,0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(106, 17, 203, 0.4);
+        }
+        
+        .welcome-message {
+            background: linear-gradient(135deg, rgba(106,17,203,0.2), rgba(37,117,252,0.2));
+            border: 2px solid var(--neon-blue);
+            border-radius: 15px;
+            padding: 40px;
+            margin: 40px 0;
+            text-align: center;
+            box-shadow: 0 0 30px rgba(0, 240, 255, 0.3);
+        }
+        
+        .welcome-message h2 {
+            color: var(--neon-blue);
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+        
+        .welcome-message p {
+            font-size: 2rem;
+            color: #e0e0e0;
+            margin-bottom: 15px;
+            line-height: 1.8;
+        }
+        
+        .section {
+            padding: 70px 0;
+        }
+        
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+        }
+        
+        .tool-card {
+            background: rgba(20,20,30,0.8);
+            border-radius: 15px;
+            padding: 35px;
+            border: 2px solid rgba(0, 240, 255, 0.3);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        
+        .tool-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--neon-blue);
+            box-shadow: 0 10px 30px rgba(0, 240, 255, 0.3);
+        }
+        
+        .tool-card h3 {
+            margin-bottom: 20px;
+            font-size: 2.5rem;
+            color: var(--neon-blue);
+            display: flex;
+            align-items: center;
+        }
+        
+        .tool-input {
+            width: 100%;
+            padding: 22px;
+            background: rgba(0,0,0,0.5);
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 8px;
+            color: white;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+        
+        .tool-btn {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 22px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            margin: 10px 0;
+            font-weight: 600;
+            font-size: 1.8rem;
+            border: 2px solid rgba(255,255,255,0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .tool-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(106, 17, 203, 0.4);
+        }
+        
+        .tool-result {
+            background: rgba(0,0,0,0.6);
+            padding: 25px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border: 2px solid rgba(255,255,255,0.2);
+            font-family: 'Courier New', monospace;
+            font-size: 1.8rem;
+            min-height: 60px;
+        }
+        
+        .temp-number-display {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 15px 0;
+            border: 2px solid var(--neon-blue);
+        }
+        
+        .temp-number {
+            font-size: 3rem;
+            font-weight: bold;
+            margin: 10px 0;
+            color: var(--neon-green);
+            text-shadow: 0 0 10px rgba(57, 255, 20, 0.5);
+        }
+        
+        .otp-display {
+            background: rgba(0,0,0,0.7);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border: 1px solid var(--neon-green);
+            min-height: 120px;
+            max-height: 250px;
+            overflow-y: auto;
+        }
+        
+        .otp-message {
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border-left: 4px solid var(--neon-blue);
+            background: rgba(0, 240, 255, 0.1);
+        }
+        
+        .otp-message.new {
+            border-left-color: var(--neon-green);
+            background: rgba(57, 255, 20, 0.1);
+            animation: pulse 1s ease-in-out;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+        
+        .service-option {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            margin: 10px 0;
+            background: rgba(255,255,255,0.1);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .service-option:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateX(5px);
+        }
+        
+        .service-option input {
+            margin-right: 15px;
+            transform: scale(1.5);
+        }
+        
+        .country-selector {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .country-selector select {
+            flex: 1;
+            padding: 20px;
+            background: rgba(0,0,0,0.5);
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 8px;
+            color: white;
+            font-size: 1.8rem;
+        }
+        
+        .success-badge {
+            display: inline-block;
+            background: var(--success);
+            color: #000;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 1.6rem;
+            margin-left: 15px;
+            vertical-align: middle;
+        }
+        
+        .music-player {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            background: rgba(15,15,25,0.95);
+            border-radius: 30px;
+            padding: 20px 30px;
+            display: flex;
+            align-items: center;
+            border: 2px solid var(--neon-blue);
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+        
+        .music-player:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 240, 255, 0.3);
+        }
+        
+        .music-player button {
+            background: transparent;
+            border: none;
+            color: var(--neon-blue);
+            font-size: 2rem;
+            cursor: pointer;
+            margin: 0 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .music-player button:hover {
+            color: var(--neon-green);
+            transform: scale(1.1);
+        }
+        
+        .thanksgiving-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 25px;
+        }
+        
+        .link-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            border: 2px solid rgba(255,255,255,0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .link-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--neon-blue);
+            box-shadow: 0 10px 20px rgba(0, 240, 255, 0.2);
+        }
+        
+        .link-card i {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+        
+        .link-card h4 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+        
+        .link-card p {
+            font-size: 1.4rem;
+        }
+        
+        h2 {
+            font-size: 4rem !important;
+        }
+        
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--dark);
+            color: var(--light);
+            padding: 20px 40px;
+            border-radius: 8px;
+            border: 2px solid var(--neon-blue);
+            z-index: 1000;
+            font-size: 1.8rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .toast.show {
+            opacity: 1;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                width: 98%;
+                padding: 0 10px;
+            }
+            
+            .hero h1 {
+                font-size: 3.5rem;
+            }
+            
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .music-player {
+                bottom: 20px;
+                right: 20px;
+                left: 20px;
+                border-radius: 15px;
+            }
+
+            .password-box {
+                padding: 30px;
+            }
+
+            .logo {
+                font-size: 2.5rem;
+            }
+
+            h2 {
+                font-size: 3rem !important;
+            }
+
+            body {
+                font-size: 20px;
+            }
+
+            .temp-number {
+                font-size: 2.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Password Protection System -->
+    <div id="passwordOverlay">
+        <div class="password-box">
+            <h2 style="margin-bottom:25px; color:var(--neon-blue); font-size: 3rem;">X-FACTOR DEV</h2>
+            <p style="margin-bottom:25px; color:#ccc; font-size: 2rem;">Enter password to access exclusive developer tools</p>
+            <input type="password" id="passwordInput" class="tool-input" placeholder="Enter password">
+            <button id="passwordButton" class="tool-btn" style="margin-top:20px;">Access Toolkit</button>
+            <p id="passwordError" style="color:var(--accent); margin-top:20px; display:none; font-size: 1.8rem;">Incorrect password. Try again.</p>
+            
+            <!-- Follow Steps -->
+            <div id="followSteps" style="display: none; margin-top: 35px;">
+                <h3 style="color: var(--neon-blue); margin-bottom: 25px; font-size: 2.2rem;">🔐 Complete Verification Steps</h3>
+                
+                <div class="follow-step" id="step1">
+                    <h4 style="color: var(--neon-blue); margin-bottom: 15px; font-size: 2rem;">Step 1: Join Developer Group</h4>
+                    <p style="color:#ccc; font-size:1.8rem; margin-bottom:20px;">Connect with our developer community</p>
+                    <a href="https://chat.whatsapp.com/BeIosHEQPsTJGijw9hQNLO?mode=wwt" target="_blank" class="tool-btn" style="background:var(--whatsapp);">
+                        <i class="fab fa-whatsapp"></i> Join Group
+                    </a>
+                    <button class="tool-btn step1-complete" style="margin-top:15px; background:var(--secondary);">
+                        ✓ Joined Group
+                    </button>
+                </div>
+
+                <div class="follow-step" id="step2">
+                    <h4 style="color: var(--neon-blue); margin-bottom: 15px; font-size: 2rem;">Step 2: Follow Updates Channel</h4>
+                    <p style="color:#ccc; font-size:1.8rem; margin-bottom:20px;">Get latest tool updates and releases</p>
+                    <a href="https://whatsapp.com/channel/0029Vb0SOLfBfxoG91DqFd0a" target="_blank" class="tool-btn" style="background:var(--whatsapp);">
+                        <i class="fab fa-whatsapp"></i> Follow Channel
+                    </a>
+                    <button class="tool-btn step2-complete" style="margin-top:15px; background:var(--secondary);">
+                        ✓ Following Channel
+                    </button>
+                </div>
+
+                <div class="follow-step" id="step3">
+                    <h4 style="color: var(--success); margin-bottom: 15px; font-size: 2rem;">Step 3: Access Developer Tools</h4>
+                    <p style="color:#ccc; font-size:1.8rem; margin-bottom:20px;">Unlock full toolkit access</p>
+                    <button id="unlockButton" class="tool-btn" style="background:var(--success); color:#000;" disabled>
+                        🔓 Unlock Toolkit
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div class="logo">
+                    <i class="fas fa-terminal"></i> X-FACTOR DEV
+                </div>
+                <nav>
+                    <ul style="display: flex; list-style: none; gap: 30px;">
+                        <li><a href="#tools" style="color: var(--light); text-decoration: none; font-size: 2rem; transition: color 0.3s ease;">Tools</a></li>
+                        <li><a href="#thanksgiving" style="color: var(--light); text-decoration: none; font-size: 2rem; transition: color 0.3s ease;">Team</a></li>
+                        <li><a href="#contact" style="color: var(--light); text-decoration: none; font-size: 2rem; transition: color 0.3s ease;">Contact</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div>
+                <h1>X-FACTOR DEV TOOLKIT</h1>
+                <p style="color: #ccc; margin-bottom: 35px; font-size: 2.2rem;">
+                    Advanced developer utilities and security tools. Professional solutions for modern development challenges.
+                </p>
+                <div>
+                    <a href="#tools" class="btn">Explore Tools</a>
+                    <a href="#contact" class="btn" style="background:transparent; border:2px solid var(--primary);">Get Support</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Welcome Message Section -->
+    <section class="section">
+        <div class="container">
+            <div class="welcome-message">
+                <h2>🚀 WELCOME TO X-FACTOR DEV! 🚀</h2>
+                <p>I'm <strong style="color:var(--neon-blue);">X-FACTOR</strong>, your guide in the world of advanced development and security solutions.</p>
+                <p>With years of experience in coding, security research, and tool development, I've created this comprehensive toolkit to help developers like you overcome challenges and build amazing projects.</p>
+                <p><strong style="color:var(--neon-green);">To all upcoming developers:</strong> Remember, every expert was once a beginner. Keep coding, keep learning, and never stop building. Your journey matters!</p>
+                <p style="color:var(--neon-blue); font-size: 2.2rem; margin-top: 20px;">
+                    <strong>"The best way to predict the future is to create it." - X-FACTOR</strong>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tools Section -->
+    <section class="section" id="tools">
+        <div class="container">
+            <h2 style="text-align:center; color:var(--neon-blue); margin-bottom:50px;">DEVELOPER TOOLS</h2>
+            <div class="tools-grid">
+                <!-- Temporary Number Tool -->
+                <div class="tool-card">
+                    <h3><i class="fas fa-mobile-alt"></i> Temporary Number Generator <span class="success-badge">98% Success Rate</span></h3>
+                    <p style="color:#ccc; margin-bottom:25px; font-size:2rem;">Generate temporary phone numbers from 20+ countries for testing and verification. Receive OTP messages directly in the browser.</p>
+                    
+                    <!-- Country Selector -->
+                    <div class="country-selector">
+                        <select id="countrySelect" class="tool-input">
+                            <option value="us">🇺🇸 United States</option>
+                            <option value="uk">🇬🇧 United Kingdom</option>
+                            <option value="ca">🇨🇦 Canada</option>
+                            <option value="au">🇦🇺 Australia</option>
+                            <option value="de">🇩🇪 Germany</option>
+                            <option value="fr">🇫🇷 France</option>
+                            <option value="it">🇮🇹 Italy</option>
+                            <option value="es">🇪🇸 Spain</option>
+                            <option value="nl">🇳🇱 Netherlands</option>
+                            <option value="se">🇸🇪 Sweden</option>
+                            <option value="no">🇳🇴 Norway</option>
+                            <option value="fi">🇫🇮 Finland</option>
+                            <option value="dk">🇩🇰 Denmark</option>
+                        </select>
+                    </div>
+                    
+                    <div class="temp-number-display">
+                        <div style="font-size:1.8rem;">Your Temporary Number:</div>
+                        <div class="temp-number" id="tempNumber">+1 (555) 012-3456</div>
+                        <div style="font-size:1.6rem; opacity:0.8;">Active for: <span id="numberTimer">59:59</span></div>
+                        <div style="font-size:1.6rem; margin-top:10px; color:var(--neon-green);">
+                            <i class="fas fa-check-circle"></i> OTP Compatibility: 98%
+                        </div>
+                    </div>
+
+                    <div style="margin:20px 0;">
+                        <label style="color:#ccc; font-size:1.8rem; display:block; margin-bottom:10px;">Select Service:</label>
+                        <div class="service-option">
+                            <input type="radio" id="whatsapp-otp" name="service" value="whatsapp" checked>
+                            <label for="whatsapp-otp" style="color:#ccc; font-size:1.8rem;">WhatsApp Verification</label>
+                        </div>
+                        <div class="service-option">
+                            <input type="radio" id="telegram-otp" name="service" value="telegram">
+                            <label for="telegram-otp" style="color:#ccc; font-size:1.8rem;">Telegram Verification</label>
+                        </div>
+                        <div class="service-option">
+                            <input type="radio" id="google-otp" name="service" value="google">
+                            <label for="google-otp" style="color:#ccc; font-size:1.8rem;">Google Account</label>
+                        </div>
+                    </div>
+
+                    <button class="tool-btn" id="generateNewNumber" style="background:var(--primary);">
+                        <i class="fas fa-sync"></i> Generate New Number
+                    </button>
+                    <button class="tool-btn" id="checkOtp" style="background:var(--success);">
+                        <i class="fas fa-envelope"></i> Check for OTP Messages
+                    </button>
+
+                    <div class="otp-display" id="otpDisplay">
+                        <div style="color:var(--neon-blue); text-align:center; font-size:1.8rem;">OTP messages will appear here...</div>
+                    </div>
+                </div>
+
+                <!-- WhatsApp Unban Tool -->
+                <div class="tool-card">
+                    <h3><i class="fab fa-whatsapp"></i> WhatsApp Unban Tool <span class="success-badge">98% Success Rate</span></h3>
+                    <p style="color:#ccc; margin-bottom:25px; font-size:2rem;">Professional account restoration service for banned WhatsApp accounts with 98% success rate.</p>
+                    <input type="text" class="tool-input" id="whatsappNumber" placeholder="Phone number (with country code)">
+                    <select class="tool-input" id="banReason">
+                        <option value="">Select ban reason</option>
+                        <option value="spam">Spam Reporting</option>
+                        <option value="third-party">Third-party App</option>
+                        <option value="mass-messaging">Mass Messaging</option>
+                    </select>
+                    <button class="tool-btn" id="startUnban" style="background:var(--whatsapp);">
+                        <i class="fas fa-bolt"></i> Start Unban Process
+                    </button>
+                    <div class="tool-result" id="unbanResult">
+                        <!-- Results will appear here -->
+                    </div>
+                </div>
+
+                <!-- AI Assistant -->
+                <div class="tool-card">
+                    <h3><i class="fas fa-robot"></i> Dev AI Assistant <span class="success-badge">98% Accuracy</span></h3>
+                    <p style="color:#ccc; margin-bottom:25px; font-size:2rem;">Get instant help with coding, security, and development questions from X-FACTOR's AI.</p>
+                    <div style="background:rgba(0,0,0,0.5); padding:20px; border-radius:10px; margin-bottom:20px; height:200px; overflow-y:auto;">
+                        <div id="aiChat">
+                            <div style="color:var(--neon-green); font-size:1.8rem;">🤖 X-FACTOR AI: Hello! Ready to help with your development journey. What can I assist you with today?</div>
+                        </div>
+                    </div>
+                    <input type="text" class="tool-input" id="aiInput" placeholder="Ask development question...">
+                    <button class="tool-btn" id="askAi">Ask X-FACTOR AI</button>
+                </div>
+
+                <!-- Password Generator -->
+                <div class="tool-card">
+                    <h3><i class="fas fa-key"></i> Secure Password Gen <span class="success-badge">98% Secure</span></h3>
+                    <p style="color:#ccc; margin-bottom:25px; font-size:2rem;">Generate cryptographically secure passwords with X-FACTOR's advanced algorithm.</p>
+                    <input type="range" id="passwordLength" min="8" max="32" value="16" style="width:100%; margin:20px 0;">
+                    <div style="display:flex; justify-content:space-between; font-size:1.8rem; color:#ccc;">
+                        <span>Length: <span id="lengthValue">16</span></span>
+                        <button class="tool-btn" id="generatePassword" style="width:auto; padding:15px 25px;">Generate</button>
+                    </div>
+                    <div class="tool-result" id="passwordResult" style="font-family:monospace; word-break:break-all;"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Thanksgiving Section -->
+    <section class="section" id="thanksgiving">
+        <div class="container">
+            <h2 style="text-align:center; color:var(--neon-blue); margin-bottom:50px;">TEAM & SUPPORTERS</h2>
+            <div class="thanksgiving-grid">
+                <div class="link-card">
+                    <i class="fas fa-shield-alt" style="color:var(--neon-blue);"></i>
+                    <h4>God</h4>
+                    <p style="color:#ccc;">Our Protector</p>
+                </div>
+                <div class="link-card">
+                    <i class="fas fa-heart" style="color:var(--accent);"></i>
+                    <h4>Family</h4>
+                    <p style="color:#ccc;">Much Support</p>
+                </div>
+                <div class="link-card">
+                    <i class="fas fa-code" style="color:var(--neon-green);"></i>
+                    <h4>Glo</h4>
+                    <p style="color:#ccc;">ML Enthusiast</p>
+                </div>
+                <div class="link-card">
+                    <i class="fas fa-star" style="color:var(--warning);"></i>
+                    <h4>Archie</h4>
+                    <p style="color:#ccc;">Best Friend</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="section" id="contact">
+        <div class="container">
+            <h2 style="text-align:center; color:var(--neon-blue); margin-bottom:50px;">CONTACT & SUPPORT</h2>
+            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(250px, 1fr)); gap:25px;">
+                <div class="link-card">
+                    <i class="fab fa-whatsapp" style="color:var(--whatsapp);"></i>
+                    <h4>WhatsApp</h4>
+                    <p style="color:#ccc; margin-bottom:15px;">Direct Support</p>
+                    <div style="color:var(--accent); font-weight:bold; margin:15px 0; font-size:2rem;">+254793396587</div>
+                    <button class="tool-btn" id="copyPhone" style="padding:15px 25px; font-size:1.8rem;">Copy Number</button>
+                </div>
+                <div class="link-card">
+                    <i class="fas fa-envelope" style="color:var(--warning);"></i>
+                    <h4>Email</h4>
+                    <p style="color:#ccc; margin-bottom:15px;">Formal Inquiries</p>
+                    <a href="mailto:xfactordev5@gmail.com" class="tool-btn" style="padding:15px 25px; font-size:1.8rem; text-decoration:none;">Send Email</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer style="background:rgba(5,5,10,0.95); padding:50px 0; border-top:2px solid rgba(0,240,255,0.3);">
+        <div class="container">
+            <div style="text-align:center;">
+                <div class="logo" style="justify-content:center; margin-bottom:25px;">
+                    <i class="fas fa-terminal"></i> X-FACTOR DEV
+                </div>
+                <p style="color:#ccc; font-size:2rem; margin-bottom:25px;">
+                    Advanced Developer Tools & Security Solutions
+                </p>
+                <div style="color:#666; font-size:1.5rem;">
+                    &copy; 2024 X-FACTOR DEV. All rights reserved.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Music Player -->
+    <div class="music-player">
+        <button id="playPause"><i class="fas fa-play"></i></button>
+        <div style="margin-left:15px; max-width:200px;">
+            <div style="font-size:1.5rem; color:var(--neon-blue); white-space:nowrap; overflow:hidden;">King Von - When I Die</div>
+            <div style="font-size:1.2rem; color:#ccc;">X-FACTOR Mix</div>
+        </div>
+        <button id="muteUnmute" style="margin-left:15px;"><i class="fas fa-volume-up"></i></button>
+    </div>
+
+    <!-- Audio Element -->
+    <audio id="backgroundMusic" loop>
+        <source src="https://audio.jukehost.co.uk/4tQKtP3Q8VgvV7V9R8Q9f7q9Q9vX9q9v" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // Password and Access Control
+        let completedSteps = [false, false];
+        let websiteUnlocked = false;
+
+        // Check password function
+        function checkPassword() {
+            const input = document.getElementById('passwordInput').value;
+            const error = document.getElementById('passwordError');
+            const followSteps = document.getElementById('followSteps');
+            
+            if (input === 'XFACTOR1') {
+                followSteps.style.display = 'block';
+                document.getElementById('passwordInput').style.display = 'none';
+                document.getElementById('passwordButton').style.display = 'none';
+                error.style.display = 'none';
+                
+                // Scroll to show all steps
+                setTimeout(() => {
+                    document.getElementById('passwordOverlay').scrollTop = 0;
+                }, 100);
+            } else {
+                error.style.display = 'block';
+            }
+        }
+
+        // Complete step function
+        function completeStep(stepNumber) {
+            completedSteps[stepNumber - 1] = true;
+            const stepElement = document.getElementById(`step${stepNumber}`);
+            stepElement.classList.add('step-completed');
+            
+            const button = stepElement.querySelector('button');
+            button.innerHTML = '✓ Completed';
+            button.style.background = 'var(--success)';
+            button.disabled = true;
+            
+            checkAllStepsCompleted();
+        }
+
+        // Check if all steps are completed
+        function checkAllStepsCompleted() {
+            const allCompleted = completedSteps.every(step => step === true);
+            const unlockButton = document.getElementById('unlockButton');
+            
+            if (allCompleted) {
+                unlockButton.disabled = false;
+                unlockButton.innerHTML = '🔓 Access Tools';
+                
+                // Scroll to show the unlock button
+                setTimeout(() => {
+                    unlockButton.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 300);
+            }
+        }
+
+        // Unlock website function
+        function unlockWebsite() {
+            websiteUnlocked = true;
+            document.getElementById('passwordOverlay').style.display = 'none';
+            
+            // Start music
+            const audio = document.getElementById('backgroundMusic');
+            audio.volume = 0.3;
+            audio.play().catch(e => console.log('Audio play requires user interaction'));
+            
+            // Update music player
+            document.getElementById('playPause').innerHTML = '<i class="fas fa-pause"></i>';
+            
+            // Show welcome message
+            showToast('Welcome to X-FACTOR DEV Toolkit!');
+        }
+
+        // Tool Access Restriction
+        function checkToolAccess() {
+            if (!websiteUnlocked) {
+                showToast('Please complete verification steps to access tools');
+                return false;
+            }
+            return true;
+        }
+
+        // Temporary Number Tool
+        let currentNumber = '+1 (555) 012-3456';
+        let numberTimer = 60 * 60; // 1 hour in seconds
+        let otpMessages = [];
+        
+        // Country number formats
+        const countryFormats = {
+            'us': { prefix: '+1', format: 'XXX-XXX-XXXX', example: '(555) 123-4567' },
+            'uk': { prefix: '+44', format: 'XXXX XXX XXX', example: '7700 123456' },
+            'ca': { prefix: '+1', format: 'XXX-XXX-XXXX', example: '(416) 123-4567' },
+            'au': { prefix: '+61', format: 'X XXXX XXXX', example: '4 1234 5678' },
+            'de': { prefix: '+49', format: 'XXXX XXXXXXX', example: '157 12345678' },
+            'fr': { prefix: '+33', format: 'X XX XX XX XX', example: '6 12 34 56 78' },
+            'it': { prefix: '+39', format: 'XXX XXX XXXX', example: '320 123 4567' },
+            'es': { prefix: '+34', format: 'XXX XXX XXX', example: '612 345 678' },
+            'nl': { prefix: '+31', format: 'X XXX XXX XX', example: '6 123 456 78' },
+            'se': { prefix: '+46', format: 'XX-XXX XXXX', example: '70-123 4567' },
+            'no': { prefix: '+47', format: 'XXX XX XXX', example: '412 34 567' },
+            'fi': { prefix: '+358', format: 'XX XXX XXXX', example: '40 123 4567' },
+            'dk': { prefix: '+45', format: 'XX XX XX XX', example: '20 12 34 56' }
+        };
+
+        function generateRandomNumber(countryCode) {
+            const country = countryFormats[countryCode];
+            if (!country) return '+1 (555) 012-3456'; // Default fallback
+            
+            // Generate random digits based on format
+            const digits = country.format.replace(/[^X]/g, '').length;
+            let randomDigits = '';
+            for (let i = 0; i < digits; i++) {
+                randomDigits += Math.floor(Math.random() * 10);
+            }
+            
+            // Format the number according to country format
+            let formattedNumber = country.format;
+            let digitIndex = 0;
+            
+            for (let i = 0; i < formattedNumber.length; i++) {
+                if (formattedNumber[i] === 'X') {
+                    formattedNumber = formattedNumber.substring(0, i) + randomDigits[digitIndex] + formattedNumber.substring(i + 1);
+                    digitIndex++;
+                }
+            }
+            
+            return `${country.prefix} ${formattedNumber}`;
+        }
+
+        function updateNumberTimer() {
+            if (numberTimer > 0) {
+                numberTimer--;
+                const minutes = Math.floor(numberTimer / 60);
+                const seconds = numberTimer % 60;
+                document.getElementById('numberTimer').textContent = 
+                    `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            } else {
+                // Generate new number when timer expires
+                generateNewNumber();
+            }
+        }
+
+        function generateNewNumber() {
+            const countryCode = document.getElementById('countrySelect').value;
+            currentNumber = generateRandomNumber(countryCode);
+            numberTimer = 60 * 60; // Reset to 1 hour
+            document.getElementById('tempNumber').textContent = currentNumber;
+            document.getElementById('numberTimer').textContent = '59:59';
+            
+            // Clear previous OTP messages
+            otpMessages = [];
+            updateOtpDisplay();
+            
+            showToast('New temporary number generated!');
+        }
+
+        function simulateOTP() {
+            const services = {
+                'whatsapp': 'WhatsApp',
+                'telegram': 'Telegram',
+                'google': 'Google'
+            };
+            
+            const selectedService = document.querySelector('input[name="service"]:checked').value;
+            const serviceName = services[selectedService];
+            const otpCode = Math.floor(100000 + Math.random() * 900000);
+            
+            const message = {
+                service: serviceName,
+                code: otpCode,
+                timestamp: new Date().toLocaleTimeString(),
+                number: currentNumber
+            };
+            
+            otpMessages.unshift(message); // Add to beginning of array
+            updateOtpDisplay();
+            
+            // Auto-scroll to top
+            document.getElementById('otpDisplay').scrollTop = 0;
+            
+            showToast(`New OTP received from ${serviceName}`);
+        }
+
+        function updateOtpDisplay() {
+            const otpDisplay = document.getElementById('otpDisplay');
+            
+            if (otpMessages.length === 0) {
+                otpDisplay.innerHTML = '<div style="color:var(--neon-blue); text-align:center; font-size:1.8rem;">OTP messages will appear here...</div>';
+                return;
+            }
+            
+            otpDisplay.innerHTML = otpMessages.map((msg, index) => `
+                <div class="otp-message ${index === 0 ? 'new' : ''}">
+                    <div style="display:flex; justify-content:between; margin-bottom:5px;">
+                        <strong style="color:var(--neon-blue);">${msg.service}</strong>
+                        <small style="color:#ccc; margin-left:auto;">${msg.timestamp}</small>
+                    </div>
+                    <div style="font-size:2.2rem; color:var(--neon-green); font-weight:bold; text-align:center; margin:10px 0;">
+                        ${msg.code}
+                    </div>
+                    <div style="color:#ccc; font-size:1.4rem; text-align:center;">
+                        Sent to: ${msg.number}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // WhatsApp Unban Tool
+        function startUnban() {
+            if (!checkToolAccess()) return;
+            
+            const number = document.getElementById('whatsappNumber').value;
+            const reason = document.getElementById('banReason').value;
+            const result = document.getElementById('unbanResult');
+            
+            if (!number || !reason) {
+                showToast('Please provide phone number and ban reason');
+                return;
+            }
+            
+            result.innerHTML = '<div style="color:var(--warning); font-size: 1.8rem;">🔄 Processing unban request...</div>';
+            
+            setTimeout(() => {
+                result.innerHTML = `
+                    <div style="color:var(--success);">
+                        <i class="fas fa-check-circle"></i> Unban Process Initiated Successfully!<br>
+                        <small style="font-size: 1.8rem;">Your WhatsApp account ${number} will be unbanned within 2 days.</small>
+                    </div>
+                    <div style="margin-top:15px; padding:15px; background:rgba(0,255,136,0.1); border-radius:8px;">
+                        <small style="font-size: 1.6rem;">Status: Unban in progress<br>Estimated completion: 48 hours</small>
+                    </div>
+                `;
+            }, 2000);
+        }
+
+        // AI Assistant
+        function askAI() {
+            if (!checkToolAccess()) return;
+            
+            const question = document.getElementById('aiInput').value;
+            const chat = document.getElementById('aiChat');
+            
+            if (!question) {
+                showToast('Please enter your question');
+                return;
+            }
+            
+            chat.innerHTML += `<div style="color:var(--neon-blue); font-size:1.8rem; margin:10px 0;">You: ${question}</div>`;
+            
+            setTimeout(() => {
+                const responses = [
+                    `For "${question}", I recommend checking official documentation and implementing proper error handling.`,
+                    `Regarding "${question}", ensure you're using secure coding practices and input validation.`,
+                    `For "${question}", consider using encryption and secure communication protocols.`,
+                    `About "${question}" - this typically requires proper authentication mechanisms.`
+                ];
+                const response = responses[Math.floor(Math.random() * responses.length)];
+                chat.innerHTML += `<div style="color:var(--neon-green); font-size:1.8rem; margin:10px 0;">🤖 X-FACTOR AI: ${response}</div>`;
+                chat.scrollTop = chat.scrollHeight;
+            }, 1000);
+            
+            document.getElementById('aiInput').value = '';
+        }
+
+        // Password Generator
+        function generatePassword() {
+            if (!checkToolAccess()) return;
+            const length = document.getElementById('passwordLength').value;
+            const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*";
+            let password = '';
+            for (let i = 0; i < length; i++) {
+                password += charset[Math.floor(Math.random() * charset.length)];
+            }
+            document.getElementById('passwordResult').textContent = password;
+        }
+
+        // Utility Functions
+        function showToast(message) {
+            // Remove existing toast if any
+            const existingToast = document.querySelector('.toast');
+            if (existingToast) {
+                existingToast.remove();
+            }
+            
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            
+            // Show toast
+            setTimeout(() => {
+                toast.classList.add('show');
+            }, 10);
+            
+            // Hide and remove toast after 3 seconds
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => {
+                    toast.remove();
+                }, 300);
+            }, 3000);
+        }
+
+        // Initialize everything when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Password system
+            document.getElementById('passwordButton').addEventListener('click', checkPassword);
+            document.getElementById('passwordInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') checkPassword();
+            });
+            
+            // Step completion buttons
+            document.querySelector('.step1-complete').addEventListener('click', function() {
+                completeStep(1);
+            });
+            document.querySelector('.step2-complete').addEventListener('click', function() {
+                completeStep(2);
+            });
+            
+            // Unlock button
+            document.getElementById('unlockButton').addEventListener('click', unlockWebsite);
+            
+            // Music player controls
+            const audio = document.getElementById('backgroundMusic');
+            document.getElementById('playPause').addEventListener('click', function() {
+                if (audio.paused) {
+                    audio.play();
+                    this.innerHTML = '<i class="fas fa-pause"></i>';
+                } else {
+                    audio.pause();
+                    this.innerHTML = '<i class="fas fa-play"></i>';
+                }
+            });
+            
+            document.getElementById('muteUnmute').addEventListener('click', function() {
+                audio.muted = !audio.muted;
+                this.innerHTML = audio.muted ? '<i class="fas fa-volume-mute"></i>' : '<i class="fas fa-volume-up"></i>';
+            });
+            
+            // Temporary number tool
+            document.getElementById('generateNewNumber').addEventListener('click', function() {
+                if (!checkToolAccess()) return;
+                generateNewNumber();
+            });
+            
+            document.getElementById('checkOtp').addEventListener('click', function() {
+                if (!checkToolAccess()) return;
+                simulateOTP();
+            });
+            
+            // Auto-check for OTP every 30 seconds
+            setInterval(() => {
+                if (websiteUnlocked && Math.random() > 0.7) { // 30% chance to simulate incoming OTP
+                    simulateOTP();
+                }
+            }, 30000);
+            
+            // Update timer every second
+            setInterval(updateNumberTimer, 1000);
+            
+            // WhatsApp unban tool
+            document.getElementById('startUnban').addEventListener('click', startUnban);
+            
+            // AI assistant
+            document.getElementById('askAi').addEventListener('click', askAI);
+            
+            // Password generator
+            document.getElementById('generatePassword').addEventListener('click', generatePassword);
+            document.getElementById('passwordLength').addEventListener('input', function() {
+                document.getElementById('lengthValue').textContent = this.value;
+            });
+            
+            // Copy phone number
+            document.getElementById('copyPhone').addEventListener('click', function() {
+                navigator.clipboard.writeText('+254793396587');
+                showToast('Phone number copied to clipboard');
+            });
+            
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
